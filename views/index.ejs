@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <form action="/submit" method="post" class="form">
+        <input class="first-input" type="text" name="task" placeholder="put your task" required>
+        <input class="first-submit" type="submit" value="GO">
+    </form>
+    
+    <% if(locals.tasks && locals.tasks.length>0){ %>
+        <% tasks.forEach((task)=>{ %> 
+            <div class="posts" id="post-<%= task.id %>">
+                <p class="viewed-task"><%= task.task %></p>
+                <button class="edit-btn" data-id="<%= task.id %>">Edit</button>
+                <button class="delete-btn" data-id="<%= task.id %>">Delete</button>
+                <div class="hidden" style="display: none;">
+                    <input type="text" class="edited-task" value="<%= task.task %>">
+                    <button class="save-btn" data-id="<%= task.id %>">Save</button>
+                </div>
+            </div>
+        <% }) %> 
+
+    <% }else{ %>
+        <h2>Nothing yet...</h2>
+    <% }  %>  
+
+    <script>
+        $(document).ready(function () {
+            $("body").on("click",".edit-btn",function () {
+                const id=$(this).data("id");
+                const listItem=$(`#post-${id}`);
+                listItem.find(".edit-btn, .viewed-task, .delete-btn").hide();
+                listItem.find(".hidden").show();
+            });
+            $("body").on("click",".save-btn",function () {
+                const id=$(this).data("id");
+                const listItem=$(`#post-${id}`);
+                const updatedTask=listItem.find(".edited-task").val();
+                axios.patch("/update",{
+                    id:id,
+                    task:updatedTask
+                }).then((response)=>{
+                    listItem.find(".viewed-task").text(updatedTask);
+                    listItem.find(".hidden").hide();
+                    listItem.find(".edit-btn, .viewed-task, .delete-btn").show();
+                }).catch((error) => {
+                    console.error('Error updating task:', error);
+                });
+                
+            });
+            $("body").on("click",".delete-btn",function () {
+                const id=$(this).data("id");
+                const listItem=$(`#post-${id}`);
+                axios.delete(`/delete/${id}`)
+                .then((response)=>{
+                    listItem.remove();
+
+                }).catch((error) => {
+                    console.error('Error deleting task:', error);
+                });
+            });
+
+        });
+    </script> 
+    
+</body>
+</html>

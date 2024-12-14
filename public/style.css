@@ -1,0 +1,165 @@
+:root{
+    --dark:#374151;
+    --darker:#1F2937;
+    --darkest:#111827;
+    --gray:#6B7280;
+    --light:#EEE;
+    --pink:#EC4899;
+    --purple:#8B5Cf6;
+}
+body{
+    font-family: "Permanent Marker", cursive;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: black;
+}
+input,button{
+    appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+}
+.posts{
+    display: grid;
+    grid-template-columns: 1fr 50px 50px;
+    column-gap: 20px;
+    width: 400px;
+    align-items: center;
+    background-color: var(--darkest);
+    padding: 20px;
+    border-radius: 1rem;
+    margin-bottom: 50px;
+    position: relative;
+}
+.posts::after,.posts::before{
+    content: "";
+    position: absolute;
+    height: calc(100% + 10px); /* Increase height by 10px for extra border */
+    width: calc(100% + 10px);  /* Increase width by 10px for extra border */
+    left: -5px; /* Offset to center the extra space */
+    top: -5px;  /* Offset to center the extra space */
+    background-image: conic-gradient(from var(--angle),transparent 90%,var(--pink),crimson);
+    z-index: -1; /* Keep it behind the content */
+    border-radius: 1.2rem;
+    animation:spin 4s linear infinite;
+}
+.posts::before{
+    filter: blur(1.5rem);
+    opacity: 1;
+}
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+@keyframes spin{
+    from{
+        --angle:0deg;
+    }
+    to{
+        --angle:360deg;
+    }
+}
+.edit-btn,.delete-btn,.save-btn{
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+}
+h1{
+    margin-top: 10px;
+    font-size: 3.5em;
+    color: var(--gray);
+}
+
+.form{
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    width:400px;
+    column-gap: 20px;
+    
+}
+
+.first-input{
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--darker);
+    font-family: "Pacifico", cursive;
+    color: var(--light);
+    font-size: 1.25rem;
+}
+.first-input::placeholder {
+    color: var(--gray); /* Placeholder text color */
+    opacity: 1;   /* Ensure full visibility of the placeholder */
+}
+.first-submit{
+    color: var(--pink);
+    font-size: 1.50rem;
+    font-weight: 700;
+    background-image: linear-gradient(to right,var(--pink),var(--purple));
+    -webkit-background-clip: text;
+    cursor: pointer;
+    -webkit-text-fill-color: transparent;
+    transition: 0.4s;
+}
+.first-submit:hover{
+    opacity: 0.8;
+}
+.first-submit:active{
+    opacity: 0.8;
+}
+.viewed-task{
+    color: var(--light);
+}
+.edit-btn,.save-btn{
+    font-weight: 700;
+    background-image: linear-gradient(to right,var(--pink),var(--purple));
+    -webkit-background-clip: text;
+    cursor: pointer;
+    -webkit-text-fill-color: transparent;
+}
+.delete-btn{
+    color: crimson;
+    font-weight: 700;
+    background-color: transparent;
+}
+.hidden {
+    display: grid; /* Set to grid for easy alignment */
+    grid-template-columns: 1fr 50px; /* Input takes up most space, save button fixed width */
+    column-gap: 70px; /* Add some spacing between the input and the button */
+    align-items: center; /* Vertically align content */
+}
+.edited-task {
+    padding: 1rem; /* Add padding for better appearance */
+    border-radius: 1rem;
+    color: var(--light);
+    font-family: "Pacifico", cursive;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+}
+
+.save-btn {
+    font-weight: 700;
+    height: 40px; /* Match the height with the input */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to right, var(--pink), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+    border-radius: 0.5rem;
+}
+
+
